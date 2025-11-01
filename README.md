@@ -81,8 +81,8 @@ Phase 3: Deploy (Optional, 10 min)
 ## QUICK START
 
 1. Clone:
-   git clone https://github.com/yourusername/ai-workshop-45min
-   cd ai-workshop-45min
+   git clone https://github.com/munich-gophers/ai-workshop
+   cd ai-workshop
 
 2. Verify:
    cd prerequisites
