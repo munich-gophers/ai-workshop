@@ -1,5 +1,5 @@
 #!/bin/bash
-# Test script for Path A
+# test.sh for Path A
 
 CHECKPOINT=$1
 PORT=${PORT:-8080}
@@ -20,7 +20,10 @@ case $CHECKPOINT in
 
         if echo "$RESPONSE" | grep -q "code-mentor"; then
             echo "✅ PASSED: Health endpoint working"
-            echo "Response: $RESPONSE" | python3 -m json.tool
+            echo "Response: $RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE"
+            echo ""
+            echo "🎉 Checkpoint 1 complete!"
+            echo "👉 Next: ./switch.sh path-a checkpoint-2"
         else
             echo "❌ FAILED: Expected 'code-mentor' in response"
             echo "Got: $RESPONSE"
@@ -41,7 +44,7 @@ case $CHECKPOINT in
         if echo "$RESPONSE" | grep -q '"suggestions"' && \
            echo "$RESPONSE" | grep -q '"summary"'; then
             echo "✅ PASSED: Code analysis working"
-            echo "Response: $RESPONSE" | python3 -m json.tool
+            echo "Response: $RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE"
         else
             echo "❌ FAILED: Missing required fields"
             echo "Got: $RESPONSE"
@@ -61,7 +64,7 @@ case $CHECKPOINT in
 
         if echo "$RESPONSE" | grep -q '"secrets_detected":true'; then
             echo "✅ PASSED: Secret detection working"
-            echo "Response: $RESPONSE" | python3 -m json.tool
+            echo "Response: $RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE"
         else
             echo "⚠️  WARNING: Secrets not detected (check security/detector.go)"
         fi
@@ -77,7 +80,7 @@ case $CHECKPOINT in
 
         if echo "$WEBHOOK_RESPONSE" | grep -q '"analysis_id"'; then
             echo "✅ PASSED: Webhook handler working"
-            echo "Response: $WEBHOOK_RESPONSE" | python3 -m json.tool
+            echo "Response: $WEBHOOK_RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$WEBHOOK_RESPONSE"
         else
             echo "❌ FAILED: Webhook test failed"
             echo "Got: $WEBHOOK_RESPONSE"
