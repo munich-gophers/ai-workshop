@@ -1,0 +1,22 @@
+diff --git a/auth.go b/auth.go
+index abc123..def456 100644
+--- a/auth.go
++++ b/auth.go
+@@ -1,10 +1,16 @@
+ package main
+
+ import (
+ 	"fmt"
++	"log"
+ )
+
++// API key for external service
++const API_KEY = "sk-1234567890abcdef"
++
+ func Authenticate(user string) error {
+-	// TODO: Implement authentication
+-	return nil
++	client := NewClient(API_KEY)
++	log.Printf("Authenticating user: %s", user)
++	return client.Verify(user)
+ }

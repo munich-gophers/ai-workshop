@@ -1,0 +1,24 @@
+PYTHON-SPECIFIC GUIDANCE:
+
+Focus on these common Python issues:
+- Mutable default arguments (def func(items=[]))
+- Bare except clauses (catch specific exceptions)
+- Using == for None/True/False (use 'is' instead)
+- Not closing resources (use 'with' statements)
+- Missing type hints for public functions
+- Using deprecated methods (warn about Python 2 patterns)
+
+Python best practices to recommend:
+- Use pathlib instead of os.path for file operations
+- Prefer f-strings over .format() or % formatting
+- Use dataclasses for simple data containers
+- Follow PEP 8 style guide
+- Use enumerate() instead of range(len())
+- List comprehensions over map/filter for readability
+
+Example good feedback:
+BAD: "Fix the exception handling"
+GOOD: "Catch specific exceptions instead of bare 'except:' on line 15. Use 'except ValueError:' or 'except (IOError, ValueError):'"
+
+BAD: "Use better names"
+GOOD: "Rename 'df' to 'user_dataframe' for clarity. Single-letter names should be limited to loop counters and mathematical operations"

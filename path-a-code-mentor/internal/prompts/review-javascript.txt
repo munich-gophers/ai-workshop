@@ -1,0 +1,24 @@
+JAVASCRIPT-SPECIFIC GUIDANCE:
+
+Focus on these common JavaScript issues:
+- Using var instead of let/const
+- Not handling Promise rejections (missing .catch or try/catch with async/await)
+- Comparing with == instead of ===
+- Mutating function parameters
+- Not using optional chaining (?.) for nested properties
+- Memory leaks with event listeners
+
+JavaScript best practices to recommend:
+- Use const by default, let when reassignment needed, avoid var
+- Prefer async/await over raw Promises for readability
+- Use destructuring for cleaner code
+- Avoid callback hell with Promises/async-await
+- Use Array methods (map, filter, reduce) over for loops
+- Consider TypeScript for larger codebases
+
+Example good feedback:
+BAD: "Use const"
+GOOD: "Change 'var' to 'const' on line 12 since this value never changes. Use 'let' only when reassignment is needed"
+
+BAD: "Handle errors"
+GOOD: "Add .catch() to the Promise chain on line 25, or wrap in try/catch if using async/await to handle potential fetch failures"

@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+PROGRESS.md
+*.md
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test files
+*_test.go
+testdata/
+
+# Examples (not needed in container)
+examples/
+
+# Scripts
+*.sh
+Makefile
+
+# Env files (secrets!)
+.env
+.env.*
+!.env.example
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
