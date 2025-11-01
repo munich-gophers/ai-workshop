@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -12,18 +13,22 @@ func main() {
 		port = "8080"
 	}
 
-	// TODO: CHECKPOINT 1 - Add health check endpoint
-	//
-	// Goal: Return JSON indicating service is healthy
-	//
-	// Hint: Add this code here:
-	//   mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-	//       w.Header().Set("Content-Type", "application/json")
-	//       w.WriteHeader(http.StatusOK)
-	//       w.Write([]byte(`{"status":"healthy","service":"code-mentor","version":"1.0.0"}`))
-	//   })
-	//
-	// Test: curl http://localhost:8080/health
+	mux := http.NewServeMux()
+
+	// ✅ CHECKPOINT 1: Health check endpoint
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		response := map[string]interface{}{
+			"status":              "healthy",
+			"service":             "code-mentor",
+			"version":             "1.0.0",
+			"supported_platforms": []string{"github", "gitlab"},
+		}
+
+		json.NewEncoder(w).Encode(response)
+	})
 
 	// TODO: CHECKPOINT 2 - Initialize analyzer
 	//
