@@ -7,8 +7,10 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/google/go-github/v76/github"
 	"github.com/munich-gophers/ai-workshop/code-mentor/internal/analyzer"
 	"github.com/munich-gophers/ai-workshop/code-mentor/internal/handler"
+	"github.com/munich-gophers/ai-workshop/code-mentor/internal/webhook"
 )
 
 func main() {
@@ -45,36 +47,28 @@ func main() {
 	// ✅ CHECKPOINT 2: Add /api/review endpoint
 	mux.HandleFunc("/api/review", handler.HandleReview(codeAnalyzer))
 
-	// TODO: CHECKPOINT 3 - Add /webhook/github endpoint
-	//
-	// Goal: Handle GitHub PR webhooks
-	//
-	// Hint: Add this code here:
-	//   // Configure GitHub webhook
-	//   webhookSecret := os.Getenv("GITHUB_WEBHOOK_SECRET")
-	//   if webhookSecret == "" {
-	//       log.Println("⚠️  GITHUB_WEBHOOK_SECRET not set - webhook signature validation disabled")
-	//   }
-	//
-	//   // Create GitHub client
-	//   githubClient := github.NewClient(nil)
-	//
-	//   // Configure webhook handler
-	//   webhookConfig := &webhook.Config{
-	//       Secret:       webhookSecret,
-	//       GitHubClient: githubClient,
-	//   }
-	//
-	//   // Add webhook endpoint
-	//   mux.HandleFunc("/webhook/github", webhook.HandleGitHub(codeAnalyzer, webhookConfig))
-	//
-	// Note: You'll need to implement HandleGitHub() in internal/webhook/github.go
-	// Note: Don't forget to import "github.com/google/go-github/v76/github"
+	// ✅ CHECKPOINT 3: Configure GitHub webhook
+	webhookSecret := os.Getenv("GITHUB_WEBHOOK_SECRET")
+	if webhookSecret == "" {
+		log.Println("⚠️  GITHUB_WEBHOOK_SECRET not set - webhook signature validation disabled")
+	}
+
+	// Create GitHub client (no auth token needed for public repos or webhook processing)
+	githubClient := github.NewClient(nil)
+
+	// Configure webhook handler
+	webhookConfig := &webhook.Config{
+		Secret:       webhookSecret,
+		GitHubClient: githubClient,
+	}
+
+	// ✅ CHECKPOINT 3: Add /webhook/github endpoint
+	mux.HandleFunc("/webhook/github", webhook.HandleGitHub(codeAnalyzer, webhookConfig))
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Code review: http://localhost:%s/api/review", port)
-	log.Printf("💡 Next: Implement webhook handler (Checkpoint 3)")
+	log.Printf("✅ GitHub webhook: http://localhost:%s/webhook/github", port)
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
