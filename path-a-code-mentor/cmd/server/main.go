@@ -12,6 +12,8 @@ func main() {
 		port = "8080"
 	}
 
+	mux := http.NewServeMux()
+
 	// TODO: CHECKPOINT 1 - Add health check endpoint
 	//
 	// Goal: Return JSON indicating service is healthy

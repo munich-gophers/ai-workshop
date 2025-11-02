@@ -9,7 +9,7 @@ import (
 	"net/http"
 	// 	"strings"
 
-	//	"github.com/google/go-github/v76/github"
+	"github.com/google/go-github/v76/github"
 	"github.com/munich-gophers/ai-workshop/code-mentor/internal/analyzer"
 	// "github.com/munich-gophers/ai-workshop/code-mentor/internal/models"
 	// "github.com/munich-gophers/ai-workshop/code-mentor/internal/security"
