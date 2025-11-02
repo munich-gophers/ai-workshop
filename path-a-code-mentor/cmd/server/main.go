@@ -58,7 +58,7 @@ func main() {
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
-	log.Printf("💡 Next: Implement AI integration (Checkpoint 2)")
+	log.Printf("💡 Next: Implement health endpoint (Checkpoint 1)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
