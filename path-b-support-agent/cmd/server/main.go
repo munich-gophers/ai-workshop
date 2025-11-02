@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -14,26 +15,20 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// TODO: CHECKPOINT 1 - Add health check endpoint
-	//
-	// Goal: Return JSON indicating service is healthy
-	//
-	// Hint: Add this code here:
-	//   mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-	//       w.Header().Set("Content-Type", "application/json")
-	//       w.WriteHeader(http.StatusOK)
-	//
-	//       response := map[string]interface{}{
-	//           "status":    "healthy",
-	//           "service":   "support-agent",
-	//           "version":   "1.0.0",
-	//           "features":  []string{"triage", "pii-redaction"},
-	//       }
-	//
-	//       json.NewEncoder(w).Encode(response)
-	//   })
-	//
-	// Test: curl http://localhost:8080/health
+	// ✅ CHECKPOINT 1 - Health check endpoint implemented
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		response := map[string]interface{}{
+			"status":   "healthy",
+			"service":  "support-agent",
+			"version":  "1.0.0",
+			"features": []string{"triage", "pii-redaction"},
+		}
+
+		json.NewEncoder(w).Encode(response)
+	})
 
 	// TODO: CHECKPOINT 2 - Initialize AI classifier
 	//
@@ -72,7 +67,7 @@ func main() {
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
-	log.Printf("💡 Next: Implement health endpoint (Checkpoint 1)")
+	log.Printf("💡 Next: Initialize AI classifier (Checkpoint 2)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
