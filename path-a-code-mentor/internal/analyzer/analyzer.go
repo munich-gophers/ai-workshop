@@ -12,38 +12,54 @@ type Analyzer struct {
 	// TODO: CHECKPOINT 2 - Add fields
 	//
 	// You'll need:
-	// - model *genkit.Model
+	// - genkit *genkit.Genkit
+	// - model ai.Model
 	// - basePrompt string
-	// - languagePrompts map[string]string
+	// - goPrompt string
+	// - pythonPrompt string
+	// - jsPrompt string
 }
 
 // New creates a new code analyzer
 func New(ctx context.Context) (*Analyzer, error) {
-	// TODO: CHECKPOINT 2 - Initialize Genkit
+	// TODO: CHECKPOINT 2 - Initialize Genkit v1.1.0
 	//
 	// Steps:
 	// 1. Import "github.com/firebase/genkit/go/genkit"
-	// 2. Import "github.com/firebase/genkit/go/plugins/googleai"
-	// 3. Initialize: err := googleai.Init(ctx, nil)
-	// 4. Create model: model := googleai.Model("gemini-1.5-flash")
-	// 5. Load prompts: basePrompt, langPrompts, err := loadPrompts()
-	// 6. Return &Analyzer{model: model, basePrompt: basePrompt, languagePrompts: langPrompts}
+	// 2. Import "github.com/firebase/genkit/go/ai"
+	// 3. Import "github.com/firebase/genkit/go/plugins/googlegenai"
+	// 4. Get API key from environment: apiKey := os.Getenv("GEMINI_API_KEY")
+	// 5. Create Google AI plugin: googleAI := &googlegenai.GoogleAI{APIKey: apiKey}
+	// 6. Initialize Genkit: g := genkit.Init(ctx, genkit.WithPlugins(googleAI))
+	// 7. Get model: model := googlegenai.GoogleAIModel(g, "gemini-2.5-flash")
+	// 8. Load prompts from files using loadPrompt()
+	// 9. Return &Analyzer with all fields
 	//
 	// Example:
-	//   if err := googleai.Init(ctx, nil); err != nil {
-	//       return nil, fmt.Errorf("genkit init: %w", err)
+	//   apiKey := os.Getenv("GEMINI_API_KEY")
+	//   if apiKey == "" {
+	//       return nil, fmt.Errorf("GEMINI_API_KEY environment variable not set")
 	//   }
 	//
-	//   model := googleai.Model("gemini-1.5-flash")
-	//   basePrompt, languagePrompts, err := loadPrompts()
+	//   googleAI := &googlegenai.GoogleAI{APIKey: apiKey}
+	//   g := genkit.Init(ctx, genkit.WithPlugins(googleAI))
+	//   model := googlegenai.GoogleAIModel(g, "gemini-2.5-flash")
+	//
+	//   basePrompt, err := loadPrompt("internal/prompts/review-base.txt")
 	//   if err != nil {
-	//       return nil, err
+	//       return nil, fmt.Errorf("failed to load base prompt: %w", err)
 	//   }
+	//
+	//   goPrompt, err := loadPrompt("internal/prompts/review-go.txt")
+	//   // ... load other prompts
 	//
 	//   return &Analyzer{
-	//       model: model,
-	//       basePrompt: basePrompt,
-	//       languagePrompts: languagePrompts,
+	//       genkit:       g,
+	//       model:        model,
+	//       basePrompt:   basePrompt,
+	//       goPrompt:     goPrompt,
+	//       pythonPrompt: pythonPrompt,
+	//       jsPrompt:     jsPrompt,
 	//   }, nil
 
 	return nil, fmt.Errorf("not implemented - see TODO comments in analyzer.go")
