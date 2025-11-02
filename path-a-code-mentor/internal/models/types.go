@@ -11,7 +11,9 @@ type ReviewRequest struct {
 type ReviewResponse struct {
 	Suggestions      []Suggestion `json:"suggestions"`
 	Summary          string       `json:"summary"`
+	Severity         string       `json:"severity"` // Overall severity: low, medium, high
 	Language         string       `json:"language"`
+	FilePath         string       `json:"file_path"`
 	ProcessingTimeMs int          `json:"processing_time_ms"`
 	SecretsDetected  bool         `json:"secrets_detected,omitempty"`
 	SecretLocations  []Secret     `json:"secret_locations,omitempty"`
@@ -19,11 +21,13 @@ type ReviewResponse struct {
 
 // Suggestion represents a single code review comment
 type Suggestion struct {
-	Line       int    `json:"line,omitempty"`       // Line number
-	File       string `json:"file,omitempty"`       // File path
-	Severity   string `json:"severity"`             // critical, warning, info, nitpick
-	Message    string `json:"message"`              // The feedback
-	Suggestion string `json:"suggestion,omitempty"` // Suggested fix (optional)
+	Line        int    `json:"line,omitempty"`       // Line number
+	File        string `json:"file,omitempty"`       // File path
+	Severity    string `json:"severity"`             // low, medium, high
+	Category    string `json:"category"`             // bug, performance, style, security, best-practice
+	Message     string `json:"message"`              // The feedback
+	Explanation string `json:"explanation"`          // Why this matters
+	Suggestion  string `json:"suggestion,omitempty"` // Suggested fix (optional)
 }
 
 // Secret represents a detected secret in code
@@ -34,12 +38,20 @@ type Secret struct {
 	Message string `json:"message"` // Description of the issue
 }
 
-// Severity levels for suggestions
+// Severity levels for suggestions (matches AI schema)
 const (
-	SeverityCritical = "critical" // Security issues, bugs that will crash
-	SeverityWarning  = "warning"  // Performance issues, deprecated patterns
-	SeverityInfo     = "info"     // Best practices, documentation
-	SeverityNitpick  = "nitpick"  // Minor formatting, personal preference
+	SeverityLow    = "low"    // Minor issues, nitpicks, personal preference
+	SeverityMedium = "medium" // Performance issues, deprecated patterns, best practices
+	SeverityHigh   = "high"   // Security issues, bugs, critical problems
+)
+
+// Category types for suggestions
+const (
+	CategoryBug          = "bug"           // Code defects and bugs
+	CategoryPerformance  = "performance"   // Performance issues
+	CategoryStyle        = "style"         // Code style and formatting
+	CategorySecurity     = "security"      // Security vulnerabilities
+	CategoryBestPractice = "best-practice" // Best practices and patterns
 )
 
 // Secret types that can be detected
