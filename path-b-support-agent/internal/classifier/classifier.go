@@ -12,6 +12,7 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
 	"github.com/munich-gophers/ai-workshop/support-agent/internal/models"
+	"github.com/munich-gophers/ai-workshop/support-agent/internal/redactor"
 )
 
 // Classifier performs AI-powered customer message triage using Genkit v1.1.0 API
@@ -67,12 +68,18 @@ func New(ctx context.Context) (*Classifier, error) {
 func (c *Classifier) Triage(ctx context.Context, req models.TriageRequest) (*models.TriageResponse, error) {
 	startTime := time.Now()
 
-	// Build the complete prompt
+	// ✅ CHECKPOINT 3 - Detect PII before AI processing
+	detectedPII := redactor.DetectPII(req.Message)
+
+	// ✅ CHECKPOINT 3 - Redact PII from message before sending to AI
+	redactedMessage := redactor.RedactPII(req.Message)
+
+	// Build the complete prompt with redacted message
 	fullPrompt := fmt.Sprintf("%s\n\n%s\n\n%s\n\nCustomer Message:\n%s\n\nProvide your analysis in JSON format with the following structure:\n{\n  \"intent\": {\n    \"category\": \"billing|technical|account|general\",\n    \"confidence\": 0.95,\n    \"subcategory\": \"optional subcategory\"\n  },\n  \"urgency\": {\n    \"level\": \"critical|high|medium|low\",\n    \"confidence\": 0.90,\n    \"reason\": \"explanation for urgency level\"\n  },\n  \"summary\": \"Brief summary of the customer's request\",\n  \"suggested_routing\": \"Recommendation for which team should handle this\"\n}",
 		c.basePrompt,
 		c.intentPrompt,
 		c.urgencyPrompt,
-		req.Message,
+		redactedMessage, // Use redacted message for AI
 	)
 
 	// Call Gemini using Generate
@@ -126,7 +133,7 @@ func (c *Classifier) Triage(ctx context.Context, req models.TriageRequest) (*mod
 
 	return &models.TriageResponse{
 		OriginalMessage: req.Message,
-		RedactedMessage: req.Message, // Will be updated in checkpoint-3
+		RedactedMessage: redactedMessage, // ✅ CHECKPOINT 3 - Include redacted message
 		Intent: models.Intent{
 			Category:    aiResponse.Intent.Category,
 			Confidence:  aiResponse.Intent.Confidence,
@@ -138,7 +145,7 @@ func (c *Classifier) Triage(ctx context.Context, req models.TriageRequest) (*mod
 			Reason:     aiResponse.Urgency.Reason,
 		},
 		Summary:          aiResponse.Summary,
-		DetectedPII:      []models.PIIDetection{}, // Will be populated in checkpoint-3
+		DetectedPII:      detectedPII, // ✅ CHECKPOINT 3 - Include detected PII
 		SuggestedRouting: aiResponse.SuggestedRouting,
 		ProcessingTimeMs: processingTime,
 	}, nil

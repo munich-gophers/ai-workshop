@@ -45,22 +45,17 @@ func main() {
 	// ✅ CHECKPOINT 2 - Triage endpoint implemented
 	mux.HandleFunc("/api/triage", handler.HandleTriage(aiClassifier))
 
-	// TODO: CHECKPOINT 3 - Add PII redaction to triage flow
-	//
-	// Goal: Detect and redact PII before AI processing
-	//
-	// Note: This will be implemented within the triage handler
-	// The handler should:
-	// 1. Detect PII using redactor.DetectPII()
-	// 2. Redact PII using redactor.RedactPII() before sending to AI
-	// 3. Include detected PII in the response
-	//
-	// The redactor package is already implemented in internal/redactor/pii.go
+	// ✅ CHECKPOINT 3 - PII redaction integrated
+	// PII detection and redaction is now active within the classifier
+	// - Detects PII before AI processing
+	// - Redacts PII from messages sent to Gemini
+	// - Includes detected PII in response for logging/compliance
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Triage endpoint: http://localhost:%s/api/triage", port)
-	log.Printf("💡 Next: Add PII redaction (Checkpoint 3)")
+	log.Printf("✅ PII Detection: Active - protects customer data")
+	log.Printf("🎉 All checkpoints complete!")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
