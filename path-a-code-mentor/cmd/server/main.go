@@ -1,10 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/munich-gophers/ai-workshop/code-mentor/internal/analyzer"
+	"github.com/munich-gophers/ai-workshop/code-mentor/internal/handler"
 )
 
 func main() {
@@ -30,27 +34,16 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	// TODO: CHECKPOINT 2 - Initialize analyzer
-	//
-	// Goal: Create an analyzer instance that connects to Gemini
-	//
-	// Hint: Add this code here:
-	//   ctx := context.Background()
-	//   analyzer, err := analyzer.New(ctx)
-	//   if err != nil {
-	//       log.Fatalf("Failed to initialize analyzer: %v", err)
-	//   }
-	//
-	// Note: You'll also need to implement analyzer.New() in internal/analyzer/analyzer.go
+	// ✅ CHECKPOINT 2: Initialize analyzer
+	ctx := context.Background()
+	codeAnalyzer, err := analyzer.New(ctx)
+	if err != nil {
+		log.Fatalf("❌ Failed to initialize analyzer: %v", err)
+	}
+	log.Println("✅ Analyzer initialized with Gemini")
 
-	// TODO: CHECKPOINT 2 - Add /api/review endpoint
-	//
-	// Goal: Accept code diffs and return AI reviews
-	//
-	// Hint: Add this code here:
-	//   mux.HandleFunc("/api/review", handler.HandleReview(analyzer))
-	//
-	// Note: You'll need to implement HandleReview() in internal/handler/review.go
+	// ✅ CHECKPOINT 2: Add /api/review endpoint
+	mux.HandleFunc("/api/review", handler.HandleReview(codeAnalyzer))
 
 	// TODO: CHECKPOINT 3 - Add /webhook/github endpoint
 	//
@@ -80,7 +73,8 @@ func main() {
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
-	log.Printf("💡 Next: Implement AI integration (Checkpoint 2)")
+	log.Printf("✅ Code review: http://localhost:%s/api/review", port)
+	log.Printf("💡 Next: Implement webhook handler (Checkpoint 3)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)

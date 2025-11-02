@@ -1,34 +1,60 @@
 # Progress Tracker
 
-Current Branch: CHECKPOINT-1
+Current Branch: CHECKPOINT-2
 
-Status: Health endpoint works!
+Status: AI integration works with Genkit v1.0+!
 
-Next Step: Checkpoint 2 - AI Integration
+Next Step: Checkpoint 3 - Webhooks and Security
 
 ---
 
 WHAT YOU COMPLETED
 
-✅ HTTP server running on port 8080
-✅ Health check endpoint responding
-✅ Basic JSON responses
-✅ Proper error handling
+✅ Genkit v1.0+ initialized with unified API
+✅ Google AI plugin configured
+✅ Gemini 2.5 Flash model (latest version!)
+✅ Prompt loading from files
+✅ /api/review endpoint working
+✅ Structured JSON responses with GenerateData
+✅ Language-specific prompts (Go, Python, JS)
 
-Great job! Your server is alive and healthy.
+Excellent work! Your AI code reviewer uses the latest Genkit API!
+
+---
+
+KEY API CHANGES (Genkit v1.0+)
+
+Old way (pre-1.0):
+googleai.Init(ctx, &googleai.Config{APIKey: key})
+model := googleai.Model("gemini-1.5-flash")
+resp, err := model.Generate(ctx, request, nil)
+
+New way (v1.0+):
+g := genkit.Init(ctx,
+genkit.WithPlugins(&googlegenai.GoogleAI{}),
+genkit.WithDefaultModel("googleai/gemini-2.5-flash"),
+)
+response, \_, err := genkit.GenerateData[T](ctx, g,
+ai.WithPrompt("..."),
+)
+
+Benefits:
+
+- Cleaner initialization
+- Type-safe structured output
+- Better error handling
+- Production-ready (v1.0+ has API stability guarantees)
 
 ---
 
 WHAT'S NEXT
 
-Implement AI code review in internal/analyzer/analyzer.go
+Implement webhook handling and secret detection:
 
-Key tasks:
+1. internal/webhook/github.go - Handle GitHub PR events
+2. internal/security/detector.go - Scan for secrets
 
-1. Initialize Genkit with Google AI
-2. Create a Gemini model
-3. Implement the Review() method
-4. Parse JSON responses from Gemini
+This completes the production-ready features.
 
 ---
 
@@ -37,60 +63,70 @@ TEST IT
 Run the server:
 go run cmd/server/main.go
 
-Test the health endpoint:
-curl http://localhost:8080/health
+Test code review:
+curl -X POST http://localhost:8080/api/review \
+ -H "Content-Type: application/json" \
+ -d '{
+"diff": "+func add(a, b int) int {\n+ return a + b\n+}",
+"language": "go",
+"file_path": "math.go"
+}'
 
-Expected:
-{"status":"healthy","service":"code-mentor","version":"1.0.0","supported_platforms":["github","gitlab"]}
+You should get AI-powered suggestions!
 
----
-
-MOVE TO CHECKPOINT 2
-
-When you're ready to add AI integration:
-
-./switch.sh path-a checkpoint-2
-
-This will show you what needs to be implemented next.
-
-Or see what changed:
-git diff path-a/checkpoint-1..path-a/checkpoint-2
+Run automated test:
+./test.sh checkpoint-2
 
 ---
 
-UNDERSTANDING WHAT YOU BUILT
+UNDERSTANDING GENKIT V1.0+ API
 
-The health endpoint is a standard pattern in production services:
+Package changes:
 
-Why it matters:
+- googleai → googlegenai (note the "genai" suffix)
+- Unified genkit.Init() replaces plugin-specific init
 
-- Load balancers use it to check if service is alive
-- Monitoring systems ping it every 30 seconds
-- Kubernetes uses it for readiness probes
-- CI/CD uses it to verify deployments
+Model names now include provider:
 
-The pattern:
+- "googleai/gemini-2.5-flash" (newest, fastest)
+- "googleai/gemini-2.0-flash" (multimodal)
+- "googleai/gemini-1.5-flash" (legacy)
 
-1. Simple endpoint (/health)
-2. Fast response (no DB calls)
-3. Returns 200 OK if healthy
-4. Returns 5xx if service is broken
+Configuration structure:
+googlegenai.GeminiConfig{
+Temperature: 0.3, // 0.0-2.0
+MaxOutputTokens: 2000,
+TopP: 0.95, // Nucleus sampling
+TopK: 40, // Vocabulary filtering
+}
+
+Structured output:
+GenerateData[T](ctx, g, options...)
+
+- Type-safe JSON parsing
+- Automatic schema generation from struct tags
+- Fallback to text parsing if needed
 
 ---
 
 TROUBLESHOOTING
 
-Server won't start - "address already in use":
-Another process is using port 8080
-Solution: Change PORT in .env to 8081
+Error: "cannot find package googleai":
+Solution: Package renamed to googlegenai in v1.0+
+Update import: "github.com/firebase/genkit/go/plugins/googlegenai"
 
-curl shows "connection refused":
-Server isn't running
-Solution: Make sure go run cmd/server/main.go is running
+Error: "undefined: googleai.Init":
+Solution: v1.0+ uses unified initialization
+Use: genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}))
 
-Health check returns wrong data:
-Check your json.NewEncoder logic
-Solution: Compare to the checkpoint-1 code
+Error: "GEMINI_API_KEY not set":
+Solution: Set environment variable or pass to plugin
+export GEMINI_API_KEY=your-key-here
+
+Error: "Model not found":
+Solution: Use provider prefix in model name
+Correct: "googleai/gemini-2.5-flash"
+Wrong: "gemini-2.5-flash"
 
 ---
 
@@ -99,27 +135,29 @@ QUICK COMMANDS
 Run server:
 go run cmd/server/main.go
 
-Test health:
-curl http://localhost:8080/health
+Test with curl:
+curl -X POST http://localhost:8080/api/review \
+ -H "Content-Type: application/json" \
+ -d @examples/simple-diff.txt
 
-Or with pretty printing:
-curl -s http://localhost:8080/health | python3 -m json.tool
+Automated test:
+./test.sh checkpoint-2
 
-Stop server:
-Press Ctrl+C in the terminal running the server
+Update dependencies:
+go get github.com/firebase/genkit/go@latest
 
 ---
 
 NEXT CHECKPOINT PREVIEW
 
-In Checkpoint 2, you'll:
+In Checkpoint 3, you'll:
 
-- Import Genkit SDK packages
-- Initialize connection to Gemini
-- Load prompt templates
-- Send code to AI for review
-- Parse structured JSON responses
+- Parse GitHub webhook payloads with go-github
+- Validate HMAC signatures
+- Scan code for secrets (API keys, passwords)
+- Redact secrets before AI processing
+- Return comprehensive security analysis
 
 Time estimate: 10 minutes
 
-Ready? Let's go!
+Ready for the final checkpoint? Let's add webhooks and security!
