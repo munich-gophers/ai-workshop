@@ -1,0 +1,25 @@
+Assess the urgency level of this customer message:
+
+**critical**: Immediate business impact, system down, data loss, security issue
+- Examples: "Production is down", "Data breach", "Can't access critical feature"
+- Response time: < 1 hour
+
+**high**: Significant impact on customer's workflow, but not completely blocking
+- Examples: "Feature broken for multiple users", "Payment processing failing"
+- Response time: < 4 hours
+
+**medium**: Moderate impact, customer can work around the issue
+- Examples: "Feature not working as expected", "Minor bug", "Account question"
+- Response time: < 24 hours
+
+**low**: Minor inconvenience, feature request, or general inquiry
+- Examples: "Nice to have feature", "Documentation question", "General feedback"
+- Response time: < 48 hours
+
+Consider:
+- Keywords indicating urgency (urgent, ASAP, immediately, critical)
+- Business impact described
+- Whether the customer is blocked
+- Tone and emotion in the message
+
+Return the urgency level with confidence score and brief reasoning.

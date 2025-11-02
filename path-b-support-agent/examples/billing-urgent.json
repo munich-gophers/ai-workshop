@@ -1,0 +1,5 @@
+{
+  "message": "URGENT: I was charged $499 twice on my credit card ending in 4532! This is causing my account to overdraft. I need this resolved IMMEDIATELY or I'll have to dispute with my bank. My customer ID is cust_789xyz and my email is john.doe@example.com. Please call me at 555-123-4567 ASAP!",
+  "channel": "email",
+  "user_id": "cust_789xyz"
+}

@@ -1,0 +1,5 @@
+{
+  "message": "CRITICAL SECURITY ISSUE: I just noticed unauthorized login attempts to my account from IP address 192.168.1.100. I'm locked out and can't access my data. My SSN 123-45-6789 and credit card 4532-1234-5678-9012 may have been exposed. Contact me immediately at jane.smith@company.com or 555-987-6543!",
+  "channel": "email",
+  "user_id": "cust_321def"
+}

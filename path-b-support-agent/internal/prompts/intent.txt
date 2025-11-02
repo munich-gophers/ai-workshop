@@ -1,0 +1,15 @@
+Classify the customer's intent into one of these categories:
+
+**billing**: Issues related to payments, invoices, subscriptions, refunds, or pricing
+- Examples: "I was charged twice", "Cancel my subscription", "Need a refund"
+
+**technical**: Technical problems, bugs, errors, or feature questions
+- Examples: "App keeps crashing", "Can't log in", "How do I export data?"
+
+**account**: Account access, settings, profile, or authentication issues
+- Examples: "Forgot my password", "Change my email", "Delete my account"
+
+**general**: General inquiries, feedback, or requests that don't fit other categories
+- Examples: "When will feature X be available?", "Love your product!", "General question"
+
+Return your classification with a confidence score (0.0-1.0) and brief reasoning.
