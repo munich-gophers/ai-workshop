@@ -1,10 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/munich-gophers/ai-workshop/support-agent/internal/classifier"
+	"github.com/munich-gophers/ai-workshop/support-agent/internal/handler"
 )
 
 func main() {
@@ -30,28 +34,16 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	// TODO: CHECKPOINT 2 - Initialize AI classifier
-	//
-	// Goal: Create a classifier instance that connects to Gemini
-	//
-	// Hint: Add this code here:
-	//   ctx := context.Background()
-	//   aiClassifier, err := classifier.New(ctx)
-	//   if err != nil {
-	//       log.Fatalf("Failed to initialize classifier: %v", err)
-	//   }
-	//   log.Println("✅ AI Classifier initialized with Gemini")
-	//
-	// Note: You'll also need to implement classifier.New() in internal/classifier/classifier.go
+	// ✅ CHECKPOINT 2 - AI Classifier initialized
+	ctx := context.Background()
+	aiClassifier, err := classifier.New(ctx)
+	if err != nil {
+		log.Fatalf("Failed to initialize classifier: %v", err)
+	}
+	log.Println("✅ AI Classifier initialized with Gemini 2.5-flash")
 
-	// TODO: CHECKPOINT 2 - Add /api/triage endpoint
-	//
-	// Goal: Accept customer messages and return AI triage analysis
-	//
-	// Hint: Add this code here:
-	//   mux.HandleFunc("/api/triage", handler.HandleTriage(aiClassifier))
-	//
-	// Note: You'll need to implement HandleTriage() in internal/handler/triage.go
+	// ✅ CHECKPOINT 2 - Triage endpoint implemented
+	mux.HandleFunc("/api/triage", handler.HandleTriage(aiClassifier))
 
 	// TODO: CHECKPOINT 3 - Add PII redaction to triage flow
 	//
@@ -67,7 +59,8 @@ func main() {
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
-	log.Printf("💡 Next: Initialize AI classifier (Checkpoint 2)")
+	log.Printf("✅ Triage endpoint: http://localhost:%s/api/triage", port)
+	log.Printf("💡 Next: Add PII redaction (Checkpoint 3)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
