@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/munich-gophers/ai-workshop/meeting-assistant/internal/classifier"
 	"github.com/munich-gophers/ai-workshop/meeting-assistant/internal/handler"
 )
 
@@ -35,15 +37,16 @@ func main() {
 	// ✅ CHECKPOINT 1 - Action item extraction endpoint implemented
 	mux.HandleFunc("/api/extract", handler.HandleExtract)
 
-	// TODO: CHECKPOINT 2 - Initialize AI Classifier
-	// - Import and initialize Genkit with Gemini model
-	// - Load prompts from internal/prompts/
-	// - Handle GEMINI_API_KEY from environment
+	// ✅ CHECKPOINT 2 - AI Classifier initialized
+	ctx := context.Background()
+	aiClassifier, err := classifier.New(ctx)
+	if err != nil {
+		log.Fatalf("Failed to initialize classifier: %v", err)
+	}
+	log.Println("✅ AI Classifier initialized with Gemini 2.5-flash")
 
-	// TODO: CHECKPOINT 2 - Implement full meeting analysis endpoint
-	// - Add POST /api/analyze endpoint
-	// - Use AI to extract action items, decisions, and participants
-	// - Provide comprehensive meeting analysis with topics and summary
+	// ✅ CHECKPOINT 2 - Meeting analysis endpoint implemented
+	mux.HandleFunc("/api/analyze", handler.HandleAnalyze(aiClassifier))
 
 	// TODO: CHECKPOINT 3 - Implement follow-up email generation endpoint
 	// - Add POST /api/generate-email endpoint
@@ -54,7 +57,8 @@ func main() {
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Extract endpoint: http://localhost:%s/api/extract", port)
-	log.Printf("💡 Next: Initialize AI classifier and implement analysis endpoint (Checkpoint 2)")
+	log.Printf("✅ Analyze endpoint: http://localhost:%s/api/analyze", port)
+	log.Printf("💡 Next: Implement email generation endpoint (Checkpoint 3)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
