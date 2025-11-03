@@ -2,7 +2,7 @@
 
 Build and deploy a production-ready AI service using Go + Genkit + Gemini.
 
-Choose your adventure:
+Choose your adventure - four complete learning paths:
 
 ## CHOOSE YOUR PATH
 
@@ -34,6 +34,34 @@ Start Path B: See path-b-support-agent/README.md
 
 ---
 
+Path C: AI Meeting Notes Assistant
+Build a meeting transcription and summarization service that:
+
+- Extracts structured information from meeting transcripts
+- Identifies action items and decisions
+- Generates executive summaries
+- Returns organized JSON with key insights
+
+Best for: Product managers, team leads, documentation enthusiasts
+
+Start Path C: See path-c-meeting-assistant/README.md
+
+---
+
+Path D: AI Content Moderator & Sentiment Analyzer
+Build a content moderation and analysis service that:
+
+- Performs pattern-based sentiment analysis
+- Classifies content across multiple safety categories
+- Provides comprehensive risk assessment
+- Recommends automated actions with confidence scores
+
+Best for: Community managers, social platform builders, content teams
+
+Start Path D: See path-d-content-moderator/README.md
+
+---
+
 ## PREREQUISITES
 
 Complete these BEFORE the workshop:
@@ -61,7 +89,7 @@ Expected output:
 ## WORKSHOP STRUCTURE
 
 Phase 1: Choose Your Path (2 min)
-Pick Path A or Path B and navigate to that directory
+Pick Path A, B, C, or D and navigate to that directory
 
 Phase 2: Build (25 min)
 Each path has 3 checkpoints:
@@ -71,7 +99,7 @@ Each path has 3 checkpoints:
 - Checkpoint 3: Full feature (10 min)
 
 Test at each checkpoint: ./test.sh checkpoint-X
-Stuck? See solution: ./switch.sh path-a checkpoint-X
+Stuck? See solution: ./switch.sh <path-a|path-b|path-c|path-d> checkpoint-X
 
 Phase 3: Deploy (Optional, 10 min)
 ./deploy.sh
