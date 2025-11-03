@@ -7,12 +7,14 @@ PATH_NAME=$1
 CHECKPOINT=$2
 
 if [ -z "$PATH_NAME" ] || [ -z "$CHECKPOINT" ]; then
-    echo "Usage: ./switch.sh <path-a|path-b> <start|checkpoint-1|checkpoint-2|checkpoint-3|complete>"
+    echo "Usage: ./switch.sh <path-a|path-b|path-c|path-d> <start|checkpoint-1|checkpoint-2|checkpoint-3>"
     echo ""
     echo "Examples:"
-    echo "  ./switch.sh path-a start          # Start Path A from scratch"
+    echo "  ./switch.sh path-a start          # Start Path A (Code Mentor) from scratch"
     echo "  ./switch.sh path-a checkpoint-2   # Jump to Checkpoint 2"
-    echo "  ./switch.sh path-b complete       # See the full solution for Path B"
+    echo "  ./switch.sh path-b checkpoint-3   # Complete Path B (Support Agent)"
+    echo "  ./switch.sh path-c start          # Start Path C (Meeting Assistant)"
+    echo "  ./switch.sh path-d checkpoint-1   # Path D (Content Moderator) Checkpoint 1"
     exit 1
 fi
 
@@ -42,8 +44,27 @@ echo ""
 echo "✅ You're now on ${BRANCH}"
 echo ""
 
+# Map path name to directory name
+case $PATH_NAME in
+    path-a)
+        DIR_NAME="path-a-code-mentor"
+        ;;
+    path-b)
+        DIR_NAME="path-b-support-agent"
+        ;;
+    path-c)
+        DIR_NAME="path-c-meeting-assistant"
+        ;;
+    path-d)
+        DIR_NAME="path-d-content-moderator"
+        ;;
+    *)
+        DIR_NAME="${PATH_NAME}"
+        ;;
+esac
+
 # Show PROGRESS.md if it exists
-PROGRESS_FILE="${PATH_NAME}-code-mentor/PROGRESS.md"
+PROGRESS_FILE="${DIR_NAME}/PROGRESS.md"
 if [ -f "${PROGRESS_FILE}" ]; then
     echo "=========================================="
     head -n 20 "${PROGRESS_FILE}"
