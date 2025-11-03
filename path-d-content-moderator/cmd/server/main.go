@@ -63,12 +63,15 @@ func main() {
 	// ✅ CHECKPOINT 2 - Content moderation endpoint implemented
 	mux.HandleFunc("/api/moderate", handler.HandleModerate(aiModerator))
 
-	// TODO: CHECKPOINT 3 - Comprehensive analysis endpoint
+	// ✅ CHECKPOINT 3 - Comprehensive analysis endpoint implemented
+	mux.HandleFunc("/api/analyze-content", handler.HandleAnalyzeContent(aiModerator))
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Sentiment analysis: http://localhost:%s/api/analyze-sentiment", port)
 	log.Printf("✅ Content moderation: http://localhost:%s/api/moderate", port)
+	log.Printf("✅ Comprehensive analysis: http://localhost:%s/api/analyze-content", port)
+	log.Printf("🎉 All checkpoints complete!")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
