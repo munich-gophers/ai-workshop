@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/munich-gophers/ai-workshop/content-moderator/internal/handler"
 )
 
 // TODO: CHECKPOINT 1 - Pattern-based sentiment analysis
@@ -29,10 +32,31 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// TODO: CHECKPOINT 1 - Implement endpoints here
+	// ✅ CHECKPOINT 1 - Health check endpoint implemented
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		response := map[string]interface{}{
+			"status":   "healthy",
+			"service":  "content-moderator",
+			"version":  "1.0.0",
+			"features": []string{"sentiment-analysis", "content-moderation", "action-recommendations"},
+		}
+
+		json.NewEncoder(w).Encode(response)
+	})
+
+	// ✅ CHECKPOINT 1 - Sentiment analysis endpoint implemented
+	mux.HandleFunc("/api/analyze-sentiment", handler.HandleAnalyzeSentiment)
+
+	// TODO: CHECKPOINT 2 - AI-powered moderation endpoint
+
+	// TODO: CHECKPOINT 3 - Comprehensive analysis endpoint
 
 	log.Printf("🚀 Server starting on port %s", port)
-	log.Printf("📝 Ready for checkpoint implementation")
+	log.Printf("✅ Health check: http://localhost:%s/health", port)
+	log.Printf("✅ Sentiment analysis: http://localhost:%s/api/analyze-sentiment", port)
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
