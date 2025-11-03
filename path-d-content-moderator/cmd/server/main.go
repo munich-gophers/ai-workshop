@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/munich-gophers/ai-workshop/content-moderator/internal/handler"
+	"github.com/munich-gophers/ai-workshop/content-moderator/internal/moderator"
 )
 
 // TODO: CHECKPOINT 1 - Pattern-based sentiment analysis
@@ -50,13 +52,23 @@ func main() {
 	// ✅ CHECKPOINT 1 - Sentiment analysis endpoint implemented
 	mux.HandleFunc("/api/analyze-sentiment", handler.HandleAnalyzeSentiment)
 
-	// TODO: CHECKPOINT 2 - AI-powered moderation endpoint
+	// ✅ CHECKPOINT 2 - AI Moderator initialized
+	ctx := context.Background()
+	aiModerator, err := moderator.New(ctx)
+	if err != nil {
+		log.Fatalf("Failed to initialize moderator: %v", err)
+	}
+	log.Println("✅ AI Moderator initialized with Gemini 2.5-flash")
+
+	// ✅ CHECKPOINT 2 - Content moderation endpoint implemented
+	mux.HandleFunc("/api/moderate", handler.HandleModerate(aiModerator))
 
 	// TODO: CHECKPOINT 3 - Comprehensive analysis endpoint
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Sentiment analysis: http://localhost:%s/api/analyze-sentiment", port)
+	log.Printf("✅ Content moderation: http://localhost:%s/api/moderate", port)
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
