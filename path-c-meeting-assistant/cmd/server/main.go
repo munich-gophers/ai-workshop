@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/munich-gophers/ai-workshop/meeting-assistant/internal/handler"
 )
 
 func main() {
@@ -14,15 +17,23 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// TODO: CHECKPOINT 1 - Implement health check endpoint
-	// - Add /health endpoint that returns service status
-	// - Return JSON with status, service name, version, and features
+	// ✅ CHECKPOINT 1 - Health check endpoint implemented
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 
-	// TODO: CHECKPOINT 1 - Implement action item extraction endpoint
-	// - Add POST /api/extract endpoint
-	// - Accept meeting notes in request body
-	// - Use pattern matching to extract action items
-	// - Return list of action items with assignees and due dates
+		response := map[string]interface{}{
+			"status":   "healthy",
+			"service":  "meeting-assistant",
+			"version":  "1.0.0",
+			"features": []string{"extract-actions", "analyze-meeting", "generate-email"},
+		}
+
+		json.NewEncoder(w).Encode(response)
+	})
+
+	// ✅ CHECKPOINT 1 - Action item extraction endpoint implemented
+	mux.HandleFunc("/api/extract", handler.HandleExtract)
 
 	// TODO: CHECKPOINT 2 - Initialize AI Classifier
 	// - Import and initialize Genkit with Gemini model
@@ -41,7 +52,9 @@ func main() {
 	// - Include action items, decisions, and next steps
 
 	log.Printf("🚀 Server starting on port %s", port)
-	log.Printf("💡 Next: Implement health check and extraction endpoints (Checkpoint 1)")
+	log.Printf("✅ Health check: http://localhost:%s/health", port)
+	log.Printf("✅ Extract endpoint: http://localhost:%s/api/extract", port)
+	log.Printf("💡 Next: Initialize AI classifier and implement analysis endpoint (Checkpoint 2)")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
