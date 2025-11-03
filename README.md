@@ -2,7 +2,17 @@
 
 Build and deploy a production-ready AI service using Go + Genkit + Gemini.
 
-Choose your adventure:
+Choose your adventure - four complete learning paths:
+
+## WHY THIS WORKSHOP?
+
+Learn production-ready AI development through hands-on building. Each path teaches:
+- **Real-world patterns** you'll use in production
+- **Go + Genkit** for type-safe AI applications
+- **Google Gemini** for powerful AI capabilities
+- **Incremental learning** through 3 guided checkpoints
+
+**All paths are standalone** - pick one that matches your interests or complete multiple to master different AI patterns!
 
 ## CHOOSE YOUR PATH
 
@@ -34,6 +44,34 @@ Start Path B: See path-b-support-agent/README.md
 
 ---
 
+Path C: AI Meeting Notes Assistant
+Build a meeting transcription and summarization service that:
+
+- Extracts structured information from meeting transcripts
+- Identifies action items and decisions
+- Generates executive summaries
+- Returns organized JSON with key insights
+
+Best for: Product managers, team leads, documentation enthusiasts
+
+Start Path C: `./switch.sh path-c start`
+
+---
+
+Path D: AI Content Moderator & Sentiment Analyzer
+Build a content moderation and analysis service that:
+
+- Performs pattern-based sentiment analysis
+- Classifies content across multiple safety categories
+- Provides comprehensive risk assessment
+- Recommends automated actions with confidence scores
+
+Best for: Community managers, social platform builders, content teams
+
+Start Path D: `./switch.sh path-d start`
+
+---
+
 ## PREREQUISITES
 
 Complete these BEFORE the workshop:
@@ -61,37 +99,81 @@ Expected output:
 ## WORKSHOP STRUCTURE
 
 Phase 1: Choose Your Path (2 min)
-Pick Path A or Path B and navigate to that directory
+Pick Path A, B, C, or D and switch to that branch:
+```bash
+./switch.sh <path-a|path-b|path-c|path-d> start
+```
 
 Phase 2: Build (25 min)
 Each path has 3 checkpoints:
 
-- Checkpoint 1: Basic server (5 min)
+- Checkpoint 1: Foundation & basics (5 min)
 - Checkpoint 2: AI integration (10 min)
-- Checkpoint 3: Full feature (10 min)
+- Checkpoint 3: Full feature set (10 min)
 
-Test at each checkpoint: ./test.sh checkpoint-X
-Stuck? See solution: ./switch.sh path-a checkpoint-X
+Navigate between checkpoints:
+```bash
+./switch.sh <path-name> checkpoint-1
+./switch.sh <path-name> checkpoint-2
+./switch.sh <path-name> checkpoint-3
+```
 
 Phase 3: Deploy (Optional, 10 min)
-./deploy.sh
+Deploy your service to production
 
 ---
 
 ## QUICK START
 
-1. Clone:
+1. **Clone the repository:**
+   ```bash
    git clone https://github.com/munich-gophers/ai-workshop
    cd ai-workshop
+   ```
 
-2. Verify:
+2. **Verify your setup:**
+   ```bash
    cd prerequisites
    ./verify.sh
+   cd ..
+   ```
 
-3. Choose path:
-   cd ../path-a-code-mentor
+3. **Choose your path and start building:**
+   ```bash
+   # Example: Start Path A (Code Mentor)
+   ./switch.sh path-a start
 
-4. Follow README in that directory
+   # Or start any other path
+   # ./switch.sh path-b start  # Support Agent
+   # ./switch.sh path-c start  # Meeting Assistant
+   # ./switch.sh path-d start  # Content Moderator
+   ```
+
+4. **Follow the checkpoints:**
+   - Each path has TODOs marked in the code
+   - Complete each checkpoint before moving to the next
+   - Use `./switch.sh <path-name> checkpoint-X` to jump to solutions
+
+---
+
+## WHAT YOU'LL LEARN
+
+Each path teaches different AI patterns and techniques:
+
+| Path | Core AI Pattern | Key Skills |
+|------|----------------|------------|
+| **Path A: Code Mentor** | Code Analysis & Generation | Webhook processing, structured code review, context-aware suggestions |
+| **Path B: Support Agent** | Text Classification & PII Handling | Data redaction, intent classification, structured extraction |
+| **Path C: Meeting Assistant** | Information Extraction | Transcript parsing, action item detection, executive summarization |
+| **Path D: Content Moderator** | Multi-label Classification | Sentiment analysis, content safety, confidence scoring, decision automation |
+
+**Common to all paths:**
+- Setting up Go + Genkit projects
+- Integrating Google Gemini AI
+- Prompt engineering techniques
+- Structured JSON responses
+- Error handling & validation
+- Testing AI applications
 
 ---
 
