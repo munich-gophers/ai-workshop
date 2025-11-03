@@ -1,0 +1,33 @@
+Perform a comprehensive analysis of the following content, combining sentiment analysis and content moderation.
+
+Your analysis should include:
+
+1. **Sentiment Analysis**:
+   - Overall sentiment (positive, negative, neutral)
+   - Confidence in your sentiment assessment
+   - Sentiment score (-1.0 to 1.0)
+
+2. **Content Moderation**:
+   - Safety assessment across all categories
+   - Specific issues detected with confidence levels
+   - Overall risk level
+
+3. **Action Recommendation**:
+   Based on the combined analysis, recommend one of the following actions:
+   - **approve** - Content is safe and appropriate
+   - **flag** - Content needs human review (moderate risk)
+   - **reject** - Content violates policies (high risk)
+   - **escalate** - Content requires immediate attention (critical risk)
+
+For your recommendation, provide:
+- The recommended action
+- Confidence level in the recommendation (0.0 to 1.0)
+- Clear reasoning for the recommendation
+- Whether the action should be automatically executed (based on confidence)
+
+Consider:
+- Context and intent matter
+- Negative sentiment doesn't always mean content should be rejected
+- Positive sentiment doesn't guarantee content is appropriate
+- Multiple moderate flags may warrant escalation
+- High-confidence violations should be auto-rejected

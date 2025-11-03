@@ -1,0 +1,22 @@
+Analyze the following content for moderation issues. Evaluate it across multiple categories:
+
+Categories to check:
+1. **spam** - Unsolicited advertising, repetitive content, or promotional material
+2. **harassment** - Bullying, intimidation, or targeted attacks on individuals
+3. **hate-speech** - Content promoting hatred or discrimination based on identity
+4. **violence** - Threats, glorification of violence, or graphic violent content
+5. **sexual** - Sexually explicit or inappropriate sexual content
+6. **profanity** - Excessive or inappropriate use of profane language
+7. **misinformation** - Demonstrably false information presented as fact
+8. **self-harm** - Content promoting or encouraging self-harm or suicide
+
+For each category:
+- Indicate if the content is flagged for this category
+- Provide a confidence score (0.0 to 1.0)
+- Assign a severity level: low, medium, or high
+
+Provide an overall safety assessment:
+- Is the content safe overall?
+- What is the overall risk level: low, medium, high, or critical
+
+Be objective and consider context. Not all strong language or opinions constitute violations.
