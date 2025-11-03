@@ -1,0 +1,35 @@
+Your task is to provide a comprehensive analysis of meeting notes.
+
+Extract and organize:
+
+1. Action Items:
+   - Clear, actionable tasks
+   - Assignees and due dates
+   - Priority levels
+
+2. Key Decisions:
+   - What was decided
+   - Context and reasoning
+   - Who made the decision
+   - Expected impact
+
+3. Participants:
+   - Names of attendees
+   - Their roles or contributions
+   - Action items assigned to each
+
+4. Topics Discussed:
+   - Main discussion points
+   - Key takeaways
+   - Time spent (if mentioned)
+
+5. Meeting Metadata:
+   - Meeting date (if mentioned)
+   - Next meeting information
+   - Overall meeting purpose
+
+Provide a clear, well-organized summary that helps team members quickly understand:
+- What was discussed
+- What was decided
+- What needs to happen next
+- Who is responsible for what

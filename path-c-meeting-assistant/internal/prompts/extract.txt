@@ -1,0 +1,17 @@
+Your task is to extract action items from meeting notes.
+
+For each action item, identify:
+1. Description: What needs to be done (be specific)
+2. Assignee: Who is responsible (if mentioned)
+3. Due Date: When it needs to be completed (if mentioned)
+4. Priority: High, medium, or low based on language used
+5. Status: Always set to "pending" for new extractions
+
+Look for phrases like:
+- "Action item:", "TODO:", "Task:", "Follow up:"
+- "[Name] will...", "[Name] to...", "[Name] should..."
+- "Assigned to [Name]", "@[Name]"
+- "By [date]", "Due [date]", "Deadline:"
+- "ASAP", "urgent", "critical", "high priority"
+
+Be conservative - only extract clear action items, not general discussion points.

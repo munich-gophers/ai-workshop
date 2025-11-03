@@ -1,0 +1,29 @@
+Your task is to generate a professional follow-up email based on meeting notes.
+
+The email should include:
+
+1. Subject Line:
+   - Clear and specific
+   - Mentions the meeting date or topic
+   - Professional and concise
+
+2. Email Body Structure:
+   - Greeting (use recipient name if provided)
+   - Brief meeting recap/context
+   - Key decisions made (if any)
+   - Action items with assignees and due dates
+   - Next meeting information (if applicable)
+   - Closing with call to action
+
+Tone Guidelines:
+- Formal: Professional, structured, use full names
+- Casual: Friendly but professional, use first names
+- Friendly: Warm and collaborative, team-oriented language
+
+Formatting:
+- Use clear sections with headings
+- Bullet points for action items
+- Bold important information
+- Keep paragraphs short and scannable
+
+The email should be ready to send with minimal editing.
