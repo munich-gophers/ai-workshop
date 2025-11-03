@@ -48,17 +48,15 @@ func main() {
 	// ✅ CHECKPOINT 2 - Meeting analysis endpoint implemented
 	mux.HandleFunc("/api/analyze", handler.HandleAnalyze(aiClassifier))
 
-	// TODO: CHECKPOINT 3 - Implement follow-up email generation endpoint
-	// - Add POST /api/generate-email endpoint
-	// - Use AI to generate professional follow-up emails
-	// - Support customizable tone (formal, casual, friendly)
-	// - Include action items, decisions, and next steps
+	// ✅ CHECKPOINT 3 - Email generation endpoint implemented
+	mux.HandleFunc("/api/generate-email", handler.HandleGenerateEmail(aiClassifier))
 
 	log.Printf("🚀 Server starting on port %s", port)
 	log.Printf("✅ Health check: http://localhost:%s/health", port)
 	log.Printf("✅ Extract endpoint: http://localhost:%s/api/extract", port)
 	log.Printf("✅ Analyze endpoint: http://localhost:%s/api/analyze", port)
-	log.Printf("💡 Next: Implement email generation endpoint (Checkpoint 3)")
+	log.Printf("✅ Email generator: http://localhost:%s/api/generate-email", port)
+	log.Printf("🎉 All checkpoints complete!")
 
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
