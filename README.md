@@ -76,23 +76,33 @@ Start Path D: `./switch.sh path-d start`
 
 Complete these BEFORE the workshop:
 
-Required (30 min setup):
+**Required (15 min setup):**
 
-1. Go 1.23+ installed (go.dev)
-2. Google Cloud account with billing enabled
-3. gcloud CLI authenticated: gcloud auth login
-4. Gemini API key from: https://aistudio.google.com/app/apikey
-5. Git and a code editor (VS Code recommended)
+1. **Go 1.23+** installed ([go.dev](https://go.dev))
+2. **Gemini API key** from [AI Studio](https://aistudio.google.com/app/apikey)
+3. **Git** and a code editor (VS Code recommended)
 
-Verify Setup:
+**Optional (for deployment & integrations):**
+
+4. **gcloud CLI** - For deploying to Google Cloud Run ([install guide](https://cloud.google.com/sdk/docs/install))
+   - Run `gcloud auth login` after installation
+   - Requires Google Cloud account with billing enabled
+5. **ngrok** - For local testing with webhooks/integrations ([ngrok.com](https://ngrok.com))
+   - Useful for Path A (Code Mentor) webhook testing
+   - Exposes local server to the internet
+
+**Verify Setup:**
+```bash
 cd prerequisites
 ./verify.sh
+```
 
 Expected output:
+```
 ✅ Go 1.23.2 detected
-✅ gcloud authenticated
 ✅ GEMINI_API_KEY set
 ✅ Ready to ship!
+```
 
 ---
 
@@ -179,9 +189,15 @@ Each path teaches different AI patterns and techniques:
 
 ## RESOURCES
 
-- Genkit: https://firebase.google.com/docs/genkit
-- Gemini API: https://ai.google.dev/docs
-- Cloud Run: https://cloud.google.com/run/docs
+**AI & Development:**
+- [Genkit Documentation](https://firebase.google.com/docs/genkit) - Firebase Genkit framework
+- [Gemini API](https://ai.google.dev/docs) - Google's AI model documentation
+- [Go Documentation](https://go.dev/doc/) - Official Go language docs
+
+**Deployment & Testing:**
+- [Google Cloud Run](https://cloud.google.com/run/docs) - Serverless container deployment
+- [ngrok](https://ngrok.com/docs) - Local tunnel for webhook testing
+- [gcloud CLI](https://cloud.google.com/sdk/gcloud) - Google Cloud command-line tool
 
 ---
 
