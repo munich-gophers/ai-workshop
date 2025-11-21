@@ -20,12 +20,80 @@ fi
 
 BRANCH="${PATH_NAME}/${CHECKPOINT}"
 
-# Check if branch exists
-if ! git show-ref --verify --quiet refs/heads/${BRANCH}; then
-    echo "❌ Branch '${BRANCH}' does not exist"
+# Fetch latest from remote to ensure we have all branches
+echo "🔄 Fetching latest branches from remote..."
+git fetch origin --quiet
+
+# Check if branch exists locally
+if git show-ref --verify --quiet refs/heads/${BRANCH}; then
+    echo "✅ Local branch '${BRANCH}' found"
+# Check if branch exists on remote
+elif git show-ref --verify --quiet refs/remotes/origin/${BRANCH}; then
+    echo "✅ Remote branch 'origin/${BRANCH}' found, creating local tracking branch..."
+    git checkout --track origin/${BRANCH}
+    echo ""
+    echo "✅ You're now on ${BRANCH}"
+    echo ""
+
+    # Map path name to directory name (repeated code block for early exit path)
+    case $PATH_NAME in
+        path-a)
+            DIR_NAME="path-a-code-mentor"
+            ;;
+        path-b)
+            DIR_NAME="path-b-support-agent"
+            ;;
+        path-c)
+            DIR_NAME="path-c-meeting-assistant"
+            ;;
+        path-d)
+            DIR_NAME="path-d-content-moderator"
+            ;;
+        *)
+            DIR_NAME="${PATH_NAME}"
+            ;;
+    esac
+
+    # Show PROGRESS.md if it exists (repeated code block for early exit path)
+    PROGRESS_FILE="${DIR_NAME}/PROGRESS.md"
+    if [ -f "${PROGRESS_FILE}" ]; then
+        echo "=========================================="
+        head -n 20 "${PROGRESS_FILE}"
+        echo "=========================================="
+        echo ""
+        echo "📖 Full progress details: cat ${PROGRESS_FILE}"
+    else
+        # Generic message if no PROGRESS.md
+        case $CHECKPOINT in
+            start)
+                echo "📍 Starting point - scaffold with TODOs"
+                echo "👉 Look for // TODO: comments in the code"
+                ;;
+            checkpoint-1)
+                echo "📍 Checkpoint 1 - Health endpoint works"
+                echo "👉 Next: ./switch.sh ${PATH_NAME} checkpoint-2"
+                ;;
+            checkpoint-2)
+                echo "📍 Checkpoint 2 - AI integration works"
+                echo "👉 Next: ./switch.sh ${PATH_NAME} checkpoint-3"
+                ;;
+            checkpoint-3)
+                echo "📍 Checkpoint 3 - Full integration works"
+                echo "👉 Next: ./switch.sh ${PATH_NAME} complete"
+                ;;
+            complete)
+                echo "📍 Complete solution with bonus features"
+                echo "🎉 Great job! Check EXTENSIONS.md for ideas"
+                ;;
+        esac
+    fi
+    echo ""
+    exit 0
+else
+    echo "❌ Branch '${BRANCH}' does not exist locally or remotely"
     echo ""
     echo "Available branches:"
-    git branch | grep ${PATH_NAME} || echo "No branches found for ${PATH_NAME}"
+    git branch -a | grep ${PATH_NAME} || echo "No branches found for ${PATH_NAME}"
     exit 1
 fi
 

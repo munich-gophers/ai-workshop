@@ -37,25 +37,28 @@ else
     ERRORS=$((ERRORS + 1))
 fi
 
-# Check gcloud
-echo -n "Checking gcloud CLI... "
+# Check gcloud (optional - only needed for deployment)
+echo -n "Checking gcloud CLI (optional)... "
 if command -v gcloud &> /dev/null; then
-    echo "✅ Installed"
+    # Check if authenticated
+    GCLOUD_ACCOUNT=$(gcloud config get-value account 2>/dev/null)
+    if [ ! -z "$GCLOUD_ACCOUNT" ]; then
+        echo "✅ Installed and authenticated ($GCLOUD_ACCOUNT)"
+    else
+        echo "✅ Installed (not authenticated - run 'gcloud auth login' for deployment)"
+    fi
 else
-    echo "❌ gcloud not found"
+    echo "ℹ️  Not installed (optional - only needed for Cloud Run deployment)"
     echo "   Install from: https://cloud.google.com/sdk/docs/install"
-    ERRORS=$((ERRORS + 1))
 fi
 
-# Check gcloud authentication
-echo -n "Checking gcloud authentication... "
-GCLOUD_ACCOUNT=$(gcloud config get-value account 2>/dev/null)
-if [ ! -z "$GCLOUD_ACCOUNT" ]; then
-    echo "✅ $GCLOUD_ACCOUNT"
+# Check ngrok (optional - only needed for webhook testing)
+echo -n "Checking ngrok (optional)... "
+if command -v ngrok &> /dev/null; then
+    echo "✅ Installed"
 else
-    echo "❌ Not authenticated"
-    echo "   Run: gcloud auth login"
-    ERRORS=$((ERRORS + 1))
+    echo "ℹ️  Not installed (optional - useful for Path A webhook testing)"
+    echo "   Install from: https://ngrok.com/download"
 fi
 
 # Check Gemini API key
