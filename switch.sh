@@ -85,37 +85,35 @@ BRANCH="${PATH_NAME}/${CHECKPOINT}"
 echo "🔄 Fetching latest branches from remote..."
 git fetch origin --quiet || true
 
-# Check if branch exists locally
+# Check if branch exists locally or remotely
 if git show-ref --verify --quiet refs/heads/${BRANCH}; then
     echo "✅ Local branch '${BRANCH}' found"
-# Check if branch exists on remote
 elif git show-ref --verify --quiet refs/remotes/origin/${BRANCH}; then
     echo "✅ Remote branch 'origin/${BRANCH}' found, creating local tracking branch..."
-    git checkout --track origin/${BRANCH}
-    echo ""
-    echo "✅ You're now on ${BRANCH}"
-    echo ""
-    show_progress "$PATH_NAME" "$CHECKPOINT"
-    echo ""
-    exit 0
 else
     echo "❌ Branch '${BRANCH}' does not exist locally or remotely"
     echo ""
     echo "Available branches:"
-    git branch -a | grep ${PATH_NAME} || echo "No branches found for ${PATH_NAME}"
+    git branch -a | grep "${PATH_NAME}" || echo "No branches found for ${PATH_NAME}"
     exit 1
 fi
 
-# Stash any changes
+# Stash any changes before switching branches
 if [[ -n $(git status -s) ]]; then
     echo "💾 Stashing your changes..."
     git stash push -m "Auto-stash before switching to ${BRANCH}"
     echo ""
 fi
 
-# Switch branch
-echo "🔄 Switching to ${BRANCH}..."
-git checkout ${BRANCH}
+# Switch to branch (either existing local or create from remote)
+if git show-ref --verify --quiet refs/heads/${BRANCH}; then
+    # Local branch exists, switch to it
+    echo "🔄 Switching to ${BRANCH}..."
+    git checkout "${BRANCH}"
+else
+    # Create local tracking branch from remote
+    git checkout --track "origin/${BRANCH}"
+fi
 
 echo ""
 echo "✅ You're now on ${BRANCH}"
