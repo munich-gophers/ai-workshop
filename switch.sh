@@ -12,6 +12,7 @@ show_progress() {
     local CHECKPOINT=$2
 
     # Map path name to directory name
+    local DIR_NAME
     case $PATH_NAME in
         path-a)
             DIR_NAME="path-a-code-mentor"
@@ -31,7 +32,7 @@ show_progress() {
     esac
 
     # Show PROGRESS.md if it exists
-    PROGRESS_FILE="${DIR_NAME}/PROGRESS.md"
+    local PROGRESS_FILE="${DIR_NAME}/PROGRESS.md"
     if [ -f "${PROGRESS_FILE}" ]; then
         echo "=========================================="
         head -n 20 "${PROGRESS_FILE}"
@@ -80,8 +81,9 @@ fi
 BRANCH="${PATH_NAME}/${CHECKPOINT}"
 
 # Fetch latest from remote to ensure we have all branches
+# Allow fetch to fail gracefully (e.g., offline scenarios)
 echo "🔄 Fetching latest branches from remote..."
-git fetch origin --quiet
+git fetch origin --quiet || true
 
 # Check if branch exists locally
 if git show-ref --verify --quiet refs/heads/${BRANCH}; then
