@@ -1,125 +1,91 @@
 # Progress Tracker
 
-Current Branch: CHECKPOINT-1
+Current Branch: START
 
-Status: Health endpoint works!
+Status: Ready to begin!
 
-Next Step: Checkpoint 2 - AI Integration
-
----
-
-WHAT YOU COMPLETED
-
-✅ HTTP server running on port 8080
-✅ Health check endpoint responding
-✅ Basic JSON responses
-✅ Proper error handling
-
-Great job! Your server is alive and healthy.
+Next Step: Implement the health endpoint and basic server
 
 ---
 
-WHAT'S NEXT
+STARTING POINT
 
-Implement AI code review in internal/analyzer/analyzer.go
+This is the scaffold with TODOs. Your task is to:
 
-Key tasks:
+1. Implement the health check endpoint
+2. Set up the HTTP server
+3. Add basic error handling
+4. Test that it works
 
-1. Initialize Genkit with Google AI
-2. Create a Gemini model
-3. Implement the Review() method
-4. Parse JSON responses from Gemini
-
----
-
-TEST IT
-
-Run the server:
-go run cmd/server/main.go
-
-Test the health endpoint:
-curl http://localhost:8080/health
-
-Expected:
-{"status":"healthy","service":"code-mentor","version":"1.0.0","supported_platforms":["github","gitlab"]}
+Look for `// TODO:` comments in the code to guide you.
 
 ---
 
-MOVE TO CHECKPOINT 2
+QUICK START
 
-When you're ready to add AI integration:
+1. Copy .env.example to .env:
+   ```bash
+   cp .env.example .env
+   ```
 
-./switch.sh path-a checkpoint-2
+2. Add your Gemini API key to .env:
+   ```
+   GEMINI_API_KEY=your_key_here
+   ```
 
-This will show you what needs to be implemented next.
+3. Run the server:
+   ```bash
+   go run cmd/server/main.go
+   ```
 
-Or see what changed:
-git diff path-a/checkpoint-1..path-a/checkpoint-2
-
----
-
-UNDERSTANDING WHAT YOU BUILT
-
-The health endpoint is a standard pattern in production services:
-
-Why it matters:
-
-- Load balancers use it to check if service is alive
-- Monitoring systems ping it every 30 seconds
-- Kubernetes uses it for readiness probes
-- CI/CD uses it to verify deployments
-
-The pattern:
-
-1. Simple endpoint (/health)
-2. Fast response (no DB calls)
-3. Returns 200 OK if healthy
-4. Returns 5xx if service is broken
+4. Test the health endpoint:
+   ```bash
+   curl http://localhost:8080/health
+   ```
 
 ---
 
-TROUBLESHOOTING
+WHAT YOU'LL BUILD
 
-Server won't start - "address already in use":
-Another process is using port 8080
-Solution: Change PORT in .env to 8081
+In this workshop path, you'll create an AI-powered code review service that:
 
-curl shows "connection refused":
-Server isn't running
-Solution: Make sure go run cmd/server/main.go is running
-
-Health check returns wrong data:
-Check your json.NewEncoder logic
-Solution: Compare to the checkpoint-1 code
+- Receives webhook events from GitHub/GitLab
+- Analyzes code changes using Gemini AI
+- Provides intelligent code review suggestions
+- Returns structured JSON responses
 
 ---
 
-QUICK COMMANDS
+CHECKPOINTS
 
-Run server:
-go run cmd/server/main.go
-
-Test health:
-curl http://localhost:8080/health
-
-Or with pretty printing:
-curl -s http://localhost:8080/health | python3 -m json.tool
-
-Stop server:
-Press Ctrl+C in the terminal running the server
+- **START** (current): Scaffold with TODOs
+- **Checkpoint 1**: Health endpoint working
+- **Checkpoint 2**: AI integration with Genkit
+- **Checkpoint 3**: Full webhook integration
 
 ---
 
-NEXT CHECKPOINT PREVIEW
+MOVE TO NEXT CHECKPOINT
 
-In Checkpoint 2, you'll:
+When you're ready to see the solution for the health endpoint:
 
-- Import Genkit SDK packages
-- Initialize connection to Gemini
-- Load prompt templates
-- Send code to AI for review
-- Parse structured JSON responses
+```bash
+./switch.sh path-a checkpoint-1
+```
 
-Time estimate: 10 minutes
+Or if you want to see what changed:
 
-Ready? Let's go!
+```bash
+git diff path-a/start..path-a/checkpoint-1
+```
+
+---
+
+TIPS
+
+- Read the README.md for detailed instructions
+- Check EXTENSIONS.md for bonus features
+- Use the TODO comments as your guide
+- Don't hesitate to ask for help!
+
+Good luck! 🚀
